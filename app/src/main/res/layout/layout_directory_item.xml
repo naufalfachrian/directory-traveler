@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="64dp">
+
+    <ImageView
+        android:padding="8dp"
+        android:id="@+id/iconView"
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_file_octet_stream" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/iconView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="fsdfsdfs"
+            android:textSize="16sp"
+            android:id="@+id/filenameLabel"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="fsdfsdfs"
+                android:id="@+id/sizeLabel"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="fsdfsdfs"
+                android:id="@+id/timestampLabel"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="64dp"
+        android:background="#EEEEEE"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

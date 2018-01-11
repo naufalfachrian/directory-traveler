@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Directory Traveler</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <plurals name="count_files">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+
+    <string name="count_size">%1$d bytes</string>
+</resources>
