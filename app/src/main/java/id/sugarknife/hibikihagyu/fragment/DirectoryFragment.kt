@@ -18,6 +18,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_directory.*
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DirectoryFragment : Fragment(), FileSelectedDelegate {
 
@@ -46,11 +48,12 @@ class DirectoryFragment : Fragment(), FileSelectedDelegate {
         val directoryActivity = activity as? DirectoryActivity ?: return
         val currentDirectory = directoryActivity.currentDirectory ?: return
         Schedulers.io().createWorker().schedule {
-            val items: Array<out File> = if (preferences.showHiddenFiles) {
-                currentDirectory.listFiles()
+            val items: List<File> = if (preferences.showHiddenFiles) {
+                currentDirectory.listFiles().toList()
             } else {
-                currentDirectory.listFilesWithoutHiddenFiles
+                currentDirectory.listFilesWithoutHiddenFiles.toList()
             }
+            Collections.sort(items)
             val adapter = DirectoryListAdapter(context, items, this@DirectoryFragment)
             AndroidSchedulers.mainThread().createWorker().schedule {
                 if (adapter.itemCount == 0) {
