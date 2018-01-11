@@ -10,4 +10,5 @@
     </plurals>
 
     <string name="count_size">%1$d bytes</string>
+    <string name="exit_toast">Press once again to exit.</string>
 </resources>
