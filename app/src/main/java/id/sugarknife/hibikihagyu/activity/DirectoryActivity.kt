@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import id.sugarknife.hibikihagyu.R
 import id.sugarknife.hibikihagyu.extension.askStoragePermission
 import id.sugarknife.hibikihagyu.extension.hasStoragePermission
+import id.sugarknife.hibikihagyu.extension.preferences
+import id.sugarknife.hibikihagyu.extension.showHiddenFiles
 import id.sugarknife.hibikihagyu.fragment.DirectoryFragment
 import java.io.File
 
@@ -31,7 +35,7 @@ class DirectoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        showDirectoryFragment()
+        replaceDirectoryFragment()
 
         if (!application.hasStoragePermission()) {
             askStoragePermission(askStoragePermissionRequestCode)
@@ -50,7 +54,7 @@ class DirectoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDirectoryFragment() {
+    private fun replaceDirectoryFragment() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content, DirectoryFragment(), fragmentTag)
                 .commit()
@@ -66,6 +70,30 @@ class DirectoryActivity : AppCompatActivity() {
         } else {
             currentDirectory = currentDirectory?.parentFile
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu?.findItem(R.id.toggleShowHiddenFiles)?.isChecked = preferences.showHiddenFiles
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        super.onOptionsItemSelected(item)
+        when (item?.itemId) {
+            R.id.toggleShowHiddenFiles -> {
+                item.isChecked = !item.isChecked
+                preferences.showHiddenFiles = item.isChecked
+                replaceDirectoryFragment()
+            }
+        }
+        return true
     }
 
     private fun pressBackButtonTwiceToExit() {
