@@ -27,7 +27,7 @@ class DirectoryActivity : AppCompatActivity() {
     var currentDirectory: File? = null
         set(value) {
             field = value
-            displayCurrentDirectory()
+            refreshDirectoryFragment()
             title = value?.name
         }
 
@@ -35,7 +35,7 @@ class DirectoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        replaceDirectoryFragment()
+        showDirectoryFragment()
 
         if (!application.hasStoragePermission()) {
             askStoragePermission(askStoragePermissionRequestCode)
@@ -54,13 +54,13 @@ class DirectoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceDirectoryFragment() {
+    private fun showDirectoryFragment() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content, DirectoryFragment(), fragmentTag)
                 .commit()
     }
 
-    private fun displayCurrentDirectory() {
+    private fun refreshDirectoryFragment() {
         (supportFragmentManager.findFragmentByTag(fragmentTag) as? DirectoryFragment)?.refresh()
     }
 
@@ -90,7 +90,7 @@ class DirectoryActivity : AppCompatActivity() {
             R.id.toggleShowHiddenFiles -> {
                 item.isChecked = !item.isChecked
                 preferences.showHiddenFiles = item.isChecked
-                replaceDirectoryFragment()
+                refreshDirectoryFragment()
             }
         }
         return true
