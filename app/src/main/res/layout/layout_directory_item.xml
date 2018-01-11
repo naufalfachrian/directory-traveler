@@ -10,7 +10,8 @@
         android:id="@+id/iconView"
         android:layout_width="64dp"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_file_octet_stream" />
+        android:src="@drawable/ic_file_octet_stream"
+        android:contentDescription="@string/icon" />
 
     <LinearLayout
         android:gravity="center"
@@ -21,7 +22,6 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="fsdfsdfs"
             android:textSize="16sp"
             android:id="@+id/filenameLabel"
             android:gravity="center_vertical"
@@ -34,7 +34,6 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="fsdfsdfs"
                 android:id="@+id/sizeLabel"
                 android:layout_weight="1"
                 android:textSize="12sp"
@@ -43,7 +42,6 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="fsdfsdfs"
                 android:id="@+id/timestampLabel"
                 android:layout_weight="1"
                 android:textSize="12sp"
