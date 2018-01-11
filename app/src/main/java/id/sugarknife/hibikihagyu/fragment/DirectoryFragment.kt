@@ -18,8 +18,6 @@ import java.io.File
 
 class DirectoryFragment : Fragment(), FileSelectedDelegate {
 
-    var adapter: DirectoryListAdapter? = null
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_directory, container, false)
@@ -45,18 +43,10 @@ class DirectoryFragment : Fragment(), FileSelectedDelegate {
         val directoryActivity = activity as? DirectoryActivity ?: return
         val currentDirectory = directoryActivity.currentDirectory ?: return
         Schedulers.io().createWorker().schedule {
-            if (adapter == null) {
-                adapter = DirectoryListAdapter(context, currentDirectory.listFiles(), this@DirectoryFragment)
-                AndroidSchedulers.mainThread().createWorker().schedule {
-                    directoryListView.adapter = adapter
-                    refreshRecyclerView()
-                }
-            } else {
-                adapter?.directoryItems = currentDirectory.listFiles()
-                AndroidSchedulers.mainThread().createWorker().schedule {
-                    adapter?.notifyDataSetChanged()
-                    refreshRecyclerView()
-                }
+            val adapter = DirectoryListAdapter(context, currentDirectory.listFiles(), this@DirectoryFragment)
+            AndroidSchedulers.mainThread().createWorker().schedule {
+                directoryListView.adapter = adapter
+                refreshRecyclerView()
             }
         }
     }

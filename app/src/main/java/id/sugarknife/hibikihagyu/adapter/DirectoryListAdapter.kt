@@ -17,7 +17,7 @@ import java.util.*
 
 class DirectoryListAdapter(
         private val context: Context,
-        var directoryItems: Array<out File>,
+        private val directoryItems: Array<out File>,
         private val delegate: FileSelectedDelegate)
     : RecyclerView.Adapter<DirectoryListAdapter.ViewHolder>() {
 
