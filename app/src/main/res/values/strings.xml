@@ -11,4 +11,5 @@
 
     <string name="count_size">%1$d bytes</string>
     <string name="exit_toast">Press once again to exit.</string>
+    <string name="show_hidden_files">Show hidden files</string>
 </resources>
