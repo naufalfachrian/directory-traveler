@@ -53,8 +53,13 @@ class DirectoryFragment : Fragment(), FileSelectedDelegate {
             }
             val adapter = DirectoryListAdapter(context, items, this@DirectoryFragment)
             AndroidSchedulers.mainThread().createWorker().schedule {
-                directoryListView.adapter = adapter
-                refreshRecyclerView()
+                if (adapter.itemCount == 0) {
+                    noItemsLayout.visibility = View.VISIBLE
+                } else {
+                    noItemsLayout.visibility = View.GONE
+                    directoryListView.adapter = adapter
+                    refreshRecyclerView()
+                }
             }
         }
     }
