@@ -6,5 +6,5 @@ import android.support.v4.app.Fragment
 
 val Fragment.preferences: SharedPreferences
     get() {
-        return activity.getPreferences(Context.MODE_PRIVATE)
+        return activity.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
     }

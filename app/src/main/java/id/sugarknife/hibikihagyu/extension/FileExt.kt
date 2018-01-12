@@ -1,9 +1,13 @@
 package id.sugarknife.hibikihagyu.extension
 
+import android.content.Context
 import java.io.File
-import java.io.FileFilter
 
-val File.listFilesWithoutHiddenFiles: Array<out File>
-    get() {
-        return listFiles(FileFilter { !it.isHidden })
+fun File.visibleListFiles(context: Context): List<File> {
+    val preferences = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
+    var files: List<File> = listFiles().toList()
+    if (!preferences.showHiddenFiles) {
+        files = files.filter { !it.isHidden }
     }
+    return files
+}

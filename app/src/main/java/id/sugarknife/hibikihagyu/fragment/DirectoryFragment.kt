@@ -10,16 +10,12 @@ import id.sugarknife.hibikihagyu.R
 import id.sugarknife.hibikihagyu.activity.DirectoryActivity
 import id.sugarknife.hibikihagyu.adapter.DirectoryListAdapter
 import id.sugarknife.hibikihagyu.delegate.FileSelectedDelegate
-import id.sugarknife.hibikihagyu.extension.listFilesWithoutHiddenFiles
-import id.sugarknife.hibikihagyu.extension.preferences
 import id.sugarknife.hibikihagyu.extension.runAnimation
-import id.sugarknife.hibikihagyu.extension.showHiddenFiles
+import id.sugarknife.hibikihagyu.extension.visibleListFiles
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_directory.*
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 class DirectoryFragment : Fragment(), FileSelectedDelegate {
 
@@ -48,13 +44,8 @@ class DirectoryFragment : Fragment(), FileSelectedDelegate {
         val directoryActivity = activity as? DirectoryActivity ?: return
         val currentDirectory = directoryActivity.currentDirectory ?: return
         Schedulers.io().createWorker().schedule {
-            val items: List<File> = if (preferences.showHiddenFiles) {
-                currentDirectory.listFiles().toList()
-            } else {
-                currentDirectory.listFilesWithoutHiddenFiles.toList()
-            }
-            Collections.sort(items)
-            val adapter = DirectoryListAdapter(context, items, this@DirectoryFragment)
+            val visibleListFiles = currentDirectory.visibleListFiles(context)
+            val adapter = DirectoryListAdapter(context, visibleListFiles, this@DirectoryFragment)
             AndroidSchedulers.mainThread().createWorker().schedule {
                 if (adapter.itemCount == 0) {
                     noItemsLayout.visibility = View.VISIBLE
