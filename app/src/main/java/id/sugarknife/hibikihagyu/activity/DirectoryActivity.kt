@@ -4,9 +4,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
+import android.widget.Switch
 import android.widget.Toast
 import id.sugarknife.hibikihagyu.R
 import id.sugarknife.hibikihagyu.extension.askStoragePermission
@@ -14,6 +15,7 @@ import id.sugarknife.hibikihagyu.extension.hasStoragePermission
 import id.sugarknife.hibikihagyu.extension.preferences
 import id.sugarknife.hibikihagyu.extension.showHiddenFiles
 import id.sugarknife.hibikihagyu.fragment.DirectoryFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 class DirectoryActivity : AppCompatActivity() {
@@ -35,6 +37,13 @@ class DirectoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbarWidget)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+
+        setupMenuItems()
+
         showDirectoryFragment()
 
         if (!application.hasStoragePermission()) {
@@ -54,6 +63,21 @@ class DirectoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupMenuItems() {
+        val toggleShowHiddenFiles = navigationView.menu.findItem(R.id.toggleShowHiddenFiles)
+        val toggleShowHiddenFilesSwitch = toggleShowHiddenFiles.actionView as? Switch
+        toggleShowHiddenFilesSwitch?.setOnCheckedChangeListener { _, _ ->
+            preferences.showHiddenFiles = !preferences.showHiddenFiles
+            refreshDirectoryFragment()
+        }
+        toggleShowHiddenFiles.setOnMenuItemClickListener { menuItem ->
+            val switch = menuItem.actionView as? Switch ?: return@setOnMenuItemClickListener false
+            switch.isChecked = !switch.isChecked
+            return@setOnMenuItemClickListener true
+        }
+        toggleShowHiddenFilesSwitch?.isChecked = preferences.showHiddenFiles
+    }
+
     private fun showDirectoryFragment() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.content, DirectoryFragment(), fragmentTag)
@@ -65,32 +89,22 @@ class DirectoryActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (currentDirectory == DirectoryActivity.rootDirectory) {
-            pressBackButtonTwiceToExit()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            currentDirectory = currentDirectory?.parentFile
+            if (currentDirectory == DirectoryActivity.rootDirectory) {
+                pressBackButtonTwiceToExit()
+            } else {
+                currentDirectory = currentDirectory?.parentFile
+            }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.toggleShowHiddenFiles)?.isChecked = preferences.showHiddenFiles
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         super.onOptionsItemSelected(item)
         when (item?.itemId) {
-            R.id.toggleShowHiddenFiles -> {
-                item.isChecked = !item.isChecked
-                preferences.showHiddenFiles = item.isChecked
-                refreshDirectoryFragment()
+            android.R.id.home -> {
+                drawerLayout.openDrawer(GravityCompat.START, true)
             }
         }
         return true
