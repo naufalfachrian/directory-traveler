@@ -66,8 +66,8 @@ class DirectoryActivity : AppCompatActivity() {
     private fun setupMenuItems() {
         val toggleShowHiddenFiles = navigationView.menu.findItem(R.id.toggleShowHiddenFiles)
         val toggleShowHiddenFilesSwitch = toggleShowHiddenFiles.actionView as? Switch
-        toggleShowHiddenFilesSwitch?.setOnCheckedChangeListener { _, _ ->
-            preferences.showHiddenFiles = !preferences.showHiddenFiles
+        toggleShowHiddenFilesSwitch?.setOnCheckedChangeListener { _, checked ->
+            preferences.showHiddenFiles = checked
             refreshDirectoryFragment()
         }
         toggleShowHiddenFiles.setOnMenuItemClickListener { menuItem ->
