@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     tools:openDrawer="start"
-    tools:context="id.sugarknife.hibikihagyu.activity.DirectoryActivity">
+    tools:context="id.sugarknife.hibikihagyu.feature.directory.DirectoryActivity">
 
     <LinearLayout
         android:orientation="vertical"

@@ -1,4 +1,4 @@
-package id.sugarknife.hibikihagyu.fragment
+package id.sugarknife.hibikihagyu.feature.directory
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.sugarknife.hibikihagyu.R
-import id.sugarknife.hibikihagyu.activity.DirectoryActivity
-import id.sugarknife.hibikihagyu.adapter.DirectoryListAdapter
-import id.sugarknife.hibikihagyu.delegate.FileSelectedDelegate
+import id.sugarknife.hibikihagyu.feature.directory.adapter.DirectoryListAdapter
 import id.sugarknife.hibikihagyu.extension.runAnimation
 import id.sugarknife.hibikihagyu.extension.visibleListFiles
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_directory.*
 import java.io.File
 
-class DirectoryFragment : Fragment(), FileSelectedDelegate {
+class DirectoryFragment : Fragment(), DirectoryListAdapter.DirectoryItemSelectedDelegate {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

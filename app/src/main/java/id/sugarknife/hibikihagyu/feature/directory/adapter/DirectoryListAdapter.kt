@@ -1,4 +1,4 @@
-package id.sugarknife.hibikihagyu.adapter
+package id.sugarknife.hibikihagyu.feature.directory.adapter
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import id.sugarknife.hibikihagyu.R
-import id.sugarknife.hibikihagyu.delegate.FileSelectedDelegate
 import id.sugarknife.hibikihagyu.util.ByteSizeHumanReadable
 import java.io.File
 import java.text.SimpleDateFormat
@@ -18,7 +17,7 @@ import java.util.*
 class DirectoryListAdapter(
         private val context: Context,
         private val directoryItems: List<File>,
-        private val delegate: FileSelectedDelegate)
+        private val delegate: DirectoryListAdapter.DirectoryItemSelectedDelegate)
     : RecyclerView.Adapter<DirectoryListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -61,6 +60,11 @@ class DirectoryListAdapter(
                     delegate.fileSelected(file)
             }
         }
+    }
+
+    interface DirectoryItemSelectedDelegate {
+        fun directorySelected(file: File)
+        fun fileSelected(file: File)
     }
 
 }

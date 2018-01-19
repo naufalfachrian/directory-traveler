@@ -1,4 +1,4 @@
-package id.sugarknife.hibikihagyu.activity
+package id.sugarknife.hibikihagyu.feature.directory
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -14,7 +14,6 @@ import id.sugarknife.hibikihagyu.extension.askStoragePermission
 import id.sugarknife.hibikihagyu.extension.hasStoragePermission
 import id.sugarknife.hibikihagyu.extension.preferences
 import id.sugarknife.hibikihagyu.extension.showHiddenFiles
-import id.sugarknife.hibikihagyu.fragment.DirectoryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -49,14 +48,14 @@ class DirectoryActivity : AppCompatActivity() {
         if (!application.hasStoragePermission()) {
             askStoragePermission(askStoragePermissionRequestCode)
         } else {
-            currentDirectory = DirectoryActivity.rootDirectory
+            currentDirectory = rootDirectory
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == askStoragePermissionRequestCode) {
             if (grantResults.count() > 0 && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
-                currentDirectory = DirectoryActivity.rootDirectory
+                currentDirectory = rootDirectory
             } else {
                 askStoragePermission(askStoragePermissionRequestCode)
             }
@@ -92,7 +91,7 @@ class DirectoryActivity : AppCompatActivity() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            if (currentDirectory == DirectoryActivity.rootDirectory) {
+            if (currentDirectory == rootDirectory) {
                 pressBackButtonTwiceToExit()
             } else {
                 currentDirectory = currentDirectory?.parentFile
